@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/k3d-io/k3d/main/pkg/config/v1alpha5/schema.json
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: multinode # name that you want to give to your cluster (will still be prefixed with `k3d-`)
+servers: 1 # same as `--servers 1`
+agents: 3 # same as `--agents 3`
+image: rancher/k3s:v1.27.4-k3s1 # same as `--image rancher/k3s:v1.20.4-k3s1`
+token: e3tFwZ5B9drvetFY1AhrS5UWGUJZZl9t # same as `--token e3tFwZ5B9drvetFY1AhrS5UWGUJZZl9t`
+ports:
+  - port: 8080:80 # same as `--port '8080:80@loadbalancer'`
+    nodeFilters:
+      - loadbalancer
+registries: # define how registries should be created or used
+  create: # creates a default registry to be used with the cluster; same as `--registry-create registry.localhost`
+    name: registry.localhost
+    host: "0.0.0.0"
+    hostPort: "5000"
+    volumes:
+      - /tmp/k3d:/var/lib/registry # persist registry data locally
+hostAliases: # /etc/hosts style entries to be injected into /etc/hosts in the node containers and in the NodeHosts section in CoreDNS
+  - ip: 1.1.1.1
+    hostnames:
+      - cloud.flare.dns
+options:
+  k3d: # k3d runtime settings
+    wait: true # wait for cluster to be usable before returning; same as `--wait` (default: true)
+    timeout: "60s" # wait timeout before aborting; same as `--timeout 60s`
+    disableLoadbalancer: false # same as `--no-lb`
+    disableImageVolume: false # same as `--no-image-volume`
+    disableRollback: false # same as `--no-Rollback`
+  kubeconfig:
+    updateDefaultKubeconfig: true # add new cluster to your default Kubeconfig; same as `--kubeconfig-update-default` (default: true)
+    switchCurrentContext: true # also set current-context to the new cluster's context; same as `--kubeconfig-switch-context` (default: true)
