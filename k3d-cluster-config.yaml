@@ -5,7 +5,7 @@ metadata:
   name: multinode # name that you want to give to your cluster (will still be prefixed with `k3d-`)
 servers: 1 # same as `--servers 1`
 agents: 3 # same as `--agents 3`
-image: rancher/k3s:v1.27.4-k3s1 # same as `--image rancher/k3s:v1.20.4-k3s1`
+image: rancher/k3s:v1.27.4-k3s1 # same as `--image rancher/k3s:v1.27.4-k3s1`
 token: e3tFwZ5B9drvetFY1AhrS5UWGUJZZl9t # same as `--token e3tFwZ5B9drvetFY1AhrS5UWGUJZZl9t`
 ports:
   - port: 8080:80 # same as `--port '8080:80@loadbalancer'`
