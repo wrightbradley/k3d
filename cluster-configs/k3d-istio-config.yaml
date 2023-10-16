@@ -11,10 +11,10 @@ kubeAPI:
   host: 127.0.0.1
   hostPort: "6550"
 ports:
-  - port: 9080:80 # same as `--port '9080:80@loadbalancer'`
+  - port: 80:80 # same as `--port '9080:80@loadbalancer'`
     nodeFilters:
       - loadbalancer
-  - port: 9443:443 # same as `--port '9080:80@loadbalancer'`
+  - port: 443:443 # same as `--port '9080:80@loadbalancer'`
     nodeFilters:
       - loadbalancer
 registries: # define how registries should be created or used
