@@ -30,16 +30,19 @@ install-istio: ## Install k3d cluster using config file for Istio
 delete-istio: ## Delete k3d cluster using config file for Istio
 	k3d cluster delete -c cluster-configs/k3d-istio-config.yaml
 
-## Setup:
-setup-istio: ## Helm Install Istio
+## Deploy:
+deploy-istio: ## Helm Install Istio
 	bash ./scripts/setup-istio.sh
 	kubectl apply -f ./scripts/istio-ingressclass.yaml
 
-setup-dashboard: ## Helm Install Kubernetes Dashboard
+deploy-dashboard: ## Helm Install Kubernetes Dashboard
 	bash ./scripts/setup-dashboard.sh
 
-setup-echoserver: ## Kustomize Install EchoServer
+deploy-echoserver: ## Kustomize Install EchoServer
 	kustomize build ./manifests/echoserver | kubectl apply -f -
+
+deploy-httpbin: ## Kustomize Install httpbin
+	kustomize build ./manifests/httpbin | kubectl apply -f -
 
 ## Test:
 test: test-reg ## Run all available tests
