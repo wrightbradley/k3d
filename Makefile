@@ -33,6 +33,7 @@ delete-istio: ## Delete k3d cluster using config file for Istio
 ## Setup:
 setup-istio: ## Helm Install Istio
 	bash ./scripts/setup-istio.sh
+	kubectl apply -f ./scripts/istio-ingressclass.yaml
 
 setup-dashboard: ## Helm Install Kubernetes Dashboard
 	bash ./scripts/setup-dashboard.sh
