@@ -7,17 +7,38 @@ WHITE  := $(shell tput -Txterm setaf 7)
 CYAN   := $(shell tput -Txterm setaf 6)
 RESET  := $(shell tput -Txterm sgr0)
 
+EXECUTABLES = kubectl kubectx helm kustomize
+K := $(foreach exec,$(EXECUTABLES),\
+        $(if $(shell which $(exec)),some string,$(error "No $(exec) in PATH. Run `brew install $(exec)`")))
+
 .PHONY: all install delete test
 
 all: help
 
-## Install:
-install: ## Install k3d cluster using config file
-	k3d cluster create -c k3d-cluster-config.yaml
+## Cluster Install:
+install-multinode:  ## Install k3d cluster using config file
+	k3d cluster create -c cluster-configs/k3d-multinode-config.yaml
 	kubectl cluster-info
 
-delete: ## Delete k3d cluster using config file
-	k3d cluster delete -c k3d-cluster-config.yaml
+delete-multinode:  ## Delete k3d cluster using config file
+	k3d cluster delete -c cluster-configs/k3d-multinode-config.yaml
+
+install-istio: ## Install k3d cluster using config file for Istio
+	k3d cluster create -c cluster-configs/k3d-istio-config.yaml
+	kubectl cluster-info
+
+delete-istio: ## Delete k3d cluster using config file for Istio
+	k3d cluster delete -c cluster-configs/k3d-istio-config.yaml
+
+## Setup:
+setup-istio: ## Helm Install Istio
+	bash ./scripts/setup-istio.sh
+
+setup-dashboard: ## Helm Install Kubernetes Dashboard
+	bash ./scripts/setup-dashboard.sh
+
+setup-echoserver: ## Kustomize Install EchoServer
+	kustomize build ./manifests/echoserver | kubectl apply -f -
 
 ## Test:
 test: test-reg ## Run all available tests
