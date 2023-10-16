@@ -7,7 +7,7 @@ WHITE  := $(shell tput -Txterm setaf 7)
 CYAN   := $(shell tput -Txterm setaf 6)
 RESET  := $(shell tput -Txterm sgr0)
 
-EXECUTABLES = kubectl kubectx helm kustomize
+EXECUTABLES = kubectl kubectx helm kustomize k3d
 K := $(foreach exec,$(EXECUTABLES),\
         $(if $(shell which $(exec)),some string,$(error "No $(exec) in PATH. Run `brew install $(exec)`")))
 
