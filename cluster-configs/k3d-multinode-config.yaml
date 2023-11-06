@@ -4,7 +4,7 @@ kind: Simple
 metadata:
   name: multinode # name that you want to give to your cluster (will still be prefixed with `k3d-`)
 servers: 1 # same as `--servers 1`
-agents: 3 # same as `--agents 3`
+agents: 5 # same as `--agents 5`
 image: rancher/k3s:v1.27.4-k3s1 # same as `--image rancher/k3s:v1.27.4-k3s1`
 token: e3tFwZ5B9drvetFY1AhrS5UWGUJZZl9t # same as `--token e3tFwZ5B9drvetFY1AhrS5UWGUJZZl9t`
 ports:
@@ -29,6 +29,23 @@ options:
     disableLoadbalancer: false # same as `--no-lb`
     disableImageVolume: false # same as `--no-image-volume`
     disableRollback: false # same as `--no-Rollback`
+  k3s:
+    nodeLabels:
+      - label: topology.kubernetes.io/zone=us-east-1a
+        nodeFilters:
+          - agent:0
+      - label: topology.kubernetes.io/zone=us-east-1b
+        nodeFilters:
+          - agent:1
+      - label: topology.kubernetes.io/zone=us-east-1c
+        nodeFilters:
+          - agent:2
+      - label: topology.kubernetes.io/zone=us-east-1d
+        nodeFilters:
+          - agent:3
+      - label: topology.kubernetes.io/zone=us-east-1e
+        nodeFilters:
+          - agent:4
   kubeconfig:
     updateDefaultKubeconfig: true # add new cluster to your default Kubeconfig; same as `--kubeconfig-update-default` (default: true)
     switchCurrentContext: true # also set current-context to the new cluster's context; same as `--kubeconfig-switch-context` (default: true)
